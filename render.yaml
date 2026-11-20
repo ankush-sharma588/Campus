@@ -22,12 +22,12 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-      - key: SMTP_USER
+      - key: BREVO_API_KEY
         sync: false
-      - key: SMTP_PASS
+      - key: BREVO_SENDER_EMAIL
         sync: false
-      - key: SMTP_SERVICE
-        value: gmail
+      - key: BREVO_SENDER_NAME
+        value: PlaceHub
       - key: FRONTEND_URL
         value: https://dcrust-campus-placement.vercel.app
       - key: MAIL_FROM_NAME

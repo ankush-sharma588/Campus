@@ -15,14 +15,14 @@ PlaceHub uses email OTP verification for student signup, email-based two-factor 
 
 ## Environment variables
 
-Set these in Render's backend environment (and in `backend/.env` for local development):
+Set these in Render's backend environment (and in `backend/.env` for local development). Email is sent through Brevo's HTTPS API, not SMTP:
 
 ```env
 JWT_SECRET=<long-random-jwt-signing-secret>
 OTP_SECRET=<different-long-random-secret>
-SMTP_USER=<mailbox-used-by-PlaceHub>
-SMTP_PASS=<Google-Workspace-app-password>
-SMTP_SERVICE=gmail
+BREVO_API_KEY=<Brevo-API-key>
+BREVO_SENDER_EMAIL=<verified-sender-address>
+BREVO_SENDER_NAME=PlaceHub Placement Cell
 MAIL_FROM_NAME=PlaceHub Placement Cell
 FRONTEND_URL=https://dcrust-campus-placement.vercel.app
 CLIENT_URL=https://dcrust-campus-placement.vercel.app

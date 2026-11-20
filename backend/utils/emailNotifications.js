@@ -1,11 +1,10 @@
 const User = require('../models/user.model');
-const sendMail = require('../config/Nodemailer');
+const sendMail = require('../config/EmailProvider');
 
 const APP_URL = (process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://dcrust-campus-placement.vercel.app')
   .split(',')[0]
   .trim()
   .replace(/\/$/, '');
-const SENDER_ADDRESS = process.env.SMTP_USER;
 const BRAND = 'PlaceHub';
 
 function escapeHtml(value = '') {
@@ -56,7 +55,8 @@ async function deliverBulk(addresses, subject, html, text) {
   let failed = 0;
   for (let index = 0; index < uniqueAddresses.length; index += 40) {
     const batch = uniqueAddresses.slice(index, index + 40);
-    const ok = await deliver({ to: SENDER_ADDRESS, bcc: batch }, subject, html, text);
+    // Keep recipient addresses private: put one recipient in To and the rest in BCC.
+    const ok = await deliver({ to: batch[0], bcc: batch.slice(1) }, subject, html, text);
     if (ok) sent += batch.length;
     else failed += batch.length;
   }

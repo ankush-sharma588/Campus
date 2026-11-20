@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const OtpChallenge = require('../models/otpChallenge.model');
-const sendMail = require('../config/Nodemailer');
+const sendMail = require('../config/EmailProvider');
 
 const OTP_TTL_MS = 5 * 60 * 1000;
 const RESEND_COOLDOWN_MS = 60 * 1000;

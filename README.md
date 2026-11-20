@@ -106,13 +106,15 @@ cd college-placement-management-system
 3. Create a `.env` file for environment variables:
    ```env
    PORT=4518
-   MONGO_URI=your_mongodb_connection_string
+   MONGODB_URL=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret
+   OTP_SECRET=your_separate_otp_secret
    CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
    CLOUDINARY_API_KEY=your_cloudinary_api_key
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   SMTP_USER="your_email_id"
-   SMTP_PASS="your_app_password_to_be_generate_via_google_settings"
+   BREVO_API_KEY=your_brevo_api_key
+   BREVO_SENDER_EMAIL=your_verified_sender_email
+   BREVO_SENDER_NAME=PlaceHub
    ```
 4. Start the backend server:
    ```bash
