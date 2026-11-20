@@ -24,6 +24,10 @@ services:
         sync: false
       - key: SMTP_PASS
         sync: false
+      - key: FRONTEND_URL
+        value: https://dcrust-campus-placement.vercel.app
+      - key: MAIL_FROM_NAME
+        value: PlaceHub
       - key: CLIENT_URL        # set to the static site URL below, e.g. https://placehub-web.onrender.com
         sync: false
 

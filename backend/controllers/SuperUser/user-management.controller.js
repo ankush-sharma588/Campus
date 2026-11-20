@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
+const { notifyAccountCreated } = require('../../utils/emailNotifications');
 
 // get management user
 const managementUsers = async (req, res) => {
@@ -18,7 +19,8 @@ const managementAddUsers = async (req, res) => {
 
     const newUser = new User({ first_name: req.body.first_name, email: req.body.email, number: req.body.number, password: hashPassword, role: "management_admin" });
     await newUser.save();
-    return res.json({ msg: "User Created!" });
+    void notifyAccountCreated(newUser, 'Management');
+    return res.json({ msg: "User Created! An account notification will be emailed." });
   } catch (error) {
     console.log("admin.user-management => ", error);
     return res.json({ msg: "Internal Server Error!" });

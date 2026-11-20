@@ -1,55 +1,35 @@
-const JobSchema = require("../../models/job.model");
+const Job = require('../../models/job.model');
+const { notifyJobPosted } = require('../../utils/emailNotifications');
 
 const PostJob = async (req, res) => {
   try {
-    const company = req.body.company;
-    const jobTitle = req.body.jobTitle;
-    const jobDescription = req.body.jobDescription;
-    const eligibility = req.body.eligibility;
-    const salary = req.body.salary;
-    const howToApply = req.body.howToApply;
-    const applicationDeadline = req.body.applicationDeadline;
-
-
-    // console.log(newJob);
+    const { company, jobTitle, jobDescription, eligibility, salary, howToApply, applicationDeadline } = req.body;
 
     if (!jobTitle || !jobDescription || !eligibility || !company) {
       return res.status(400).json({ msg: 'Job title, job description, eligibility and company name are required.' });
     }
 
-    const job = await JobSchema.findById(req.body._id);
+    const jobData = { company, jobTitle, jobDescription, eligibility, salary, howToApply, applicationDeadline };
+    const existingJob = req.body._id ? await Job.findById(req.body._id) : null;
 
-    if (job) {
-      await job.updateOne({
-        company,
-        jobTitle,
-        jobDescription,
-        eligibility,
-        salary,
-        howToApply,
-        applicationDeadline
-      });
-      res.status(201).json({ msg: 'Job Updated successfully' });
-    } else {
-      // Create a new job object
-      const newJob = new JobSchema({
-        jobTitle,
-        jobDescription,
-        eligibility,
-        salary,
-        howToApply,
-        postedAt: new Date(),
-        applicationDeadline,
-        company
-      });
-      await newJob.save();
-      return res.status(201).json({ msg: 'Job posted successfully' });
+    if (existingJob) {
+      Object.assign(existingJob, jobData);
+      await existingJob.save();
+      return res.status(200).json({ msg: 'Job Updated successfully' });
     }
 
+    const newJob = await Job.create({ ...jobData, postedAt: new Date() });
+    const populatedJob = await Job.findById(newJob._id).populate('company', 'companyName');
+
+    // Notify approved students after the job has been saved. Email failures do
+    // not roll back a successful job posting.
+    void notifyJobPosted(populatedJob, populatedJob.company?.companyName);
+
+    return res.status(201).json({ msg: 'Job posted successfully' });
   } catch (error) {
-    console.log("tpo.post-job.controller.js => ", error);
-    return res.status(500).json({ msg: 'Server error', error: error });
+    console.error('tpo.post-job.controller.js => ', error);
+    return res.status(500).json({ msg: 'Server error' });
   }
-}
+};
 
 module.exports = PostJob;

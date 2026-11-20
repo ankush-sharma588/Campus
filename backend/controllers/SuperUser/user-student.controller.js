@@ -1,6 +1,7 @@
 const User = require("../../models/user.model");
 const JobSchema = require("../../models/job.model");
 const bcrypt = require("bcrypt");
+const { notifyStudentApproved, notifyAccountCreated } = require('../../utils/emailNotifications');
 
 
 const studentUsers = async (req, res) => {
@@ -29,7 +30,8 @@ const studentAddUsers = async (req, res) => {
     });
 
     await newUser.save();
-    return res.json({ msg: "User Created!" });
+    void notifyAccountCreated(newUser, 'Student');
+    return res.json({ msg: "User Created! An account notification will be emailed." });
   } catch (error) {
     console.log("user-student.controller => ", error);
     return res.status(500).json({ msg: 'Server error' });
@@ -59,9 +61,14 @@ const studentApprove = async (req, res) => {
     if (!user)
       return res.status(404).json({ msg: 'Student not found' });
 
+    const wasApproved = Boolean(user.studentProfile?.isApproved);
     user.studentProfile.isApproved = true;
     await user.save();
-    return res.json({ msg: "Student Successfully Approved!" });
+
+    if (!wasApproved) void notifyStudentApproved(user);
+    return res.json({
+      msg: wasApproved ? 'Student was already approved.' : 'Student Successfully Approved! An email notification will be sent.',
+    });
   } catch (error) {
     console.error('Error approving student user:', error);
     return res.status(500).json({ msg: 'Server error' });
