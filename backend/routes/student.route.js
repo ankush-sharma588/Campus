@@ -12,6 +12,7 @@ const authenticateToken = require('../middleware/auth.middleware');
 const Signup = require('../controllers/Student/signup.controller.js');
 // student login controller
 const Login = require('../controllers/Student/login.controller.js');
+const authRequestRateLimit = require('../middleware/authRequestRateLimit');
 
 const UploadResume = require('../controllers/Student/resume.controller.js');
 const { UploadOfferLetter, DeleteOfferLetter } = require('../controllers/Student/offer-letter.controller.js');
@@ -25,10 +26,10 @@ const { GetInternships, UpdateInternship, DeleteInternship } = require('../contr
 const { StudentDataYearBranchWise, NotifyStudentStatus } = require('../controllers/Student/student-data-for-admin.controller.js');
 
 // signup post request for student
-router.post('/signup', Signup);
+router.post('/signup', authRequestRateLimit, Signup);
 
 // login post request for student
-router.post('/login', Login);
+router.post('/login', authRequestRateLimit, Login);
 
 
 // Route to upload resume

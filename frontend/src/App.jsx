@@ -7,6 +7,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage.jsx'))
 // Student Pages 
 const Login = lazy(() => import("./pages/students/Login.jsx"));
 const Signup = lazy(() => import("./pages/students/Signup.jsx"));
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'));
 const HomeStudent = lazy(() => import('./pages/students/Home.jsx'));
 const UpdatePlacementProfile = lazy(() => import("./components/Students/UpdatePlacementProfile.jsx"));
 const UpdateJobStatus = lazy(() => import("./components/Students/UpdateJobStatus.jsx"));
@@ -124,6 +125,7 @@ function App() {
             {/* Student Login, Sign Up  */}
             <Route path="/student/login" element={<Login />} />
             <Route path="/student/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             {/* TPO Login  */}
             <Route path="/tpo/login" element={<LoginTPO />} />
             {/* Management Login  */}

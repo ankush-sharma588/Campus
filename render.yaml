@@ -14,6 +14,8 @@ services:
         sync: false
       - key: JWT_SECRET
         generateValue: true
+      - key: OTP_SECRET
+        generateValue: true
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
@@ -24,6 +26,8 @@ services:
         sync: false
       - key: SMTP_PASS
         sync: false
+      - key: SMTP_SERVICE
+        value: gmail
       - key: FRONTEND_URL
         value: https://dcrust-campus-placement.vercel.app
       - key: MAIL_FROM_NAME

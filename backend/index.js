@@ -5,6 +5,9 @@ const path = require("path");
 
 const app = express();
 
+// Render runs the API behind a reverse proxy; trust one proxy hop for client IP rate limits.
+app.set('trust proxy', 1);
+
 // CORS: set CLIENT_URL to your deployed frontend (comma-separated for several).
 // If it is not set (local dev) every origin is allowed.
 const allowedOrigins = (process.env.CLIENT_URL || '')
@@ -33,6 +36,9 @@ app.use('/offerLetter', express.static(path.join(__dirname, 'public/offerLetter'
 const mongodb = require('./config/MongoDB');
 mongodb();
 
+
+// OTP verification, login second factor and password recovery
+app.use('/auth', require('./routes/auth.route'));
 
 // routes for user
 app.use('/user', require('./routes/user.route'));

@@ -8,6 +8,7 @@ const authenticateToken = require('../middleware/auth.middleware');
 
 // management login controller
 const Login = require('../controllers/Management/login.controller');
+const authRequestRateLimit = require('../middleware/authRequestRateLimit');
 // management UsersTPO controller
 const UsersTPO = require('../controllers/Management/tpo-users.controller');
 // management DeleteTPO controller
@@ -21,7 +22,7 @@ const { SendNotice, GetAllNotice, DeleteNotice, GetNotice } = require('../contro
 
 
 
-router.post('/login', Login);
+router.post('/login', authRequestRateLimit, Login);
 
 router.get('/tpo-users', authenticateToken, UsersTPO);
 

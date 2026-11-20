@@ -9,8 +9,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
+    lowercase: true
   },
+  emailVerified: { type: Boolean, default: false },
   number: { type: Number, },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'tpo_admin', 'management_admin', 'superuser'], required: true },

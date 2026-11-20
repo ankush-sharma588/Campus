@@ -6,6 +6,7 @@ const router = express.Router();
 const authenticateToken = require('../middleware/auth.middleware');
 
 const Login = require('../controllers/SuperUser/login.controller.js');
+const authRequestRateLimit = require('../middleware/authRequestRateLimit');
 
 // management methods
 const { managementUsers, managementAddUsers, managementDeleteUsers } = require('../controllers/SuperUser/user-management.controller.js');
@@ -16,7 +17,7 @@ const { studentUsers, studentAddUsers, studentDeleteUsers, studentApprove } = re
 
 
 
-router.post('/login', Login);
+router.post('/login', authRequestRateLimit, Login);
 
 // management routes
 router.get('/management-users', authenticateToken, managementUsers);

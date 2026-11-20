@@ -8,13 +8,14 @@ const authenticateToken = require('../middleware/auth.middleware');
 
 // tpo login controller
 const Login = require('../controllers/TPO/tpo.login.controller');
+const authRequestRateLimit = require('../middleware/authRequestRateLimit');
 
 const PostJob = require('../controllers/TPO/tpo.post-job.controller');
 
 const { AllJobs, DeleteJob, JobData, JobWithApplicants, StudentJobsApplied } = require('../controllers/user/user.all-jobs.controller');
 
 // login post request for student
-router.post('/login', Login);
+router.post('/login', authRequestRateLimit, Login);
 
 
 // post job listing data
