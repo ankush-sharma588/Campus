@@ -149,3 +149,5 @@ cd college-placement-management-system
 - Backend: optional; root directory `backend` works as a serverless function (`backend/vercel.json`), but Render is better for file uploads and long requests.
 
 **Docker**: `docker-compose.yaml` and per-app Dockerfiles are included.
+https://console.cron-job.org/jobs Scheduled a cron job
+
