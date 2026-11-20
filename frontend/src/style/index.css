@@ -1,0 +1,193 @@
+/* tailwind css  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dancing {
+  font-family: "Fraunces", serif;
+}
+
+.playfair {
+  font-family: "Fraunces", serif;
+}
+
+.roboto {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+body {
+  background-color: #F5F7FF;
+}
+
+/* custom sidebar scroll bar  */
+
+/* Initially hide the scrollbar */
+.sidebar-nav::-webkit-scrollbar {
+  width: 0;
+  /* Set width to 0 to hide the scrollbar */
+  height: 0;
+  /* For horizontal scrollbar, if any */
+}
+
+/* On hover or scroll, show the scrollbar */
+.sidebar-nav:hover::-webkit-scrollbar {
+  width: 4px;
+  /* Adjust the width when visible */
+  height: 4px;
+  /* For horizontal scrollbar, if any */
+}
+
+/* Track */
+.sidebar-nav::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* custom sidebar scroll bar  */
+
+
+/* input type number disable arrow  */
+/* Hide the arrows for number input in Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the arrows for number input in Firefox */
+/* input[type=number] {
+  -moz-appearance: textfield;
+} */
+
+/* input type number disable arrow  */
+
+
+
+/* Sidebar content remains visible */
+.sidebar-content {
+  scrollbar-width: none;
+  /* For Firefox */
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 0;
+  /* For Webkit (Chrome, Safari) */
+  transition: width 0.3s ease;
+  /* Add transition for smooth scrollbar visibility */
+}
+
+/* Show scrollbar only on hover */
+.navbar-container:hover .sidebar-content::-webkit-scrollbar {
+  width: 8px;
+  /* Show the scrollbar when hovered */
+}
+
+.navbar-container:hover .sidebar-content {
+  scrollbar-width: thin;
+  /* Show scrollbar for Firefox on hover */
+}
+
+/* Customize scrollbar thumb */
+.sidebar-content::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Scrollbar color */
+  border-radius: 10px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Darker scrollbar color on hover */
+}
+
+
+/* theme: indigo / teal */
+.btn-primary, .bg-primary { background-color: #4f46e5 !important; border-color: #4f46e5 !important; }
+.btn-primary:hover { background-color: #4338ca !important; border-color: #4338ca !important; }
+.btn-outline-primary { color: #4f46e5 !important; border-color: #4f46e5 !important; }
+.btn-outline-primary:hover { background-color: #4f46e5 !important; color: #fff !important; }
+.btn-success { background-color: #0d9488 !important; border-color: #0d9488 !important; }
+.btn-success:hover { background-color: #0f766e !important; border-color: #0f766e !important; }
+.btn, .form-control, .form-select, .card, .modal-content { border-radius: 0.75rem !important; }
+
+/* ================= motion system (transform/opacity only) ================= */
+:root { --ease: cubic-bezier(.22, 1, .36, 1); }
+html { scroll-behavior: smooth; }
+
+.reveal { opacity: 0; transform: translate3d(0, 36px, 0); transition: opacity .9s var(--ease), transform .9s var(--ease); will-change: transform, opacity; }
+.reveal-in { opacity: 1; transform: none; }
+
+.split-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
+.split-word { display: inline-block; transform: translate3d(0, 115%, 0) rotate(4deg); transform-origin: left bottom; transition: transform 1s var(--ease); }
+.split-in { transform: none; }
+
+.magnetic { display: inline-block; transition: transform .35s var(--ease); will-change: transform; }
+
+.tilt { transition: transform .5s var(--ease), box-shadow .5s var(--ease); transform-style: preserve-3d; position: relative; overflow: hidden; }
+.tilt::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(240px circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.55), transparent 60%); }
+.tilt:hover { box-shadow: 0 30px 60px -20px rgba(49, 46, 129, .35); }
+.tilt:hover::after { opacity: 1; }
+
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 28s linear infinite; will-change: transform; }
+.marquee-rev { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-item { display: inline-flex; align-items: center; gap: 2rem; padding-right: 2rem; font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 700; font-family: "Fraunces", serif; }
+.marquee-dot { width: .6rem; height: .6rem; border-radius: 9999px; background: #fbbf24; display: inline-block; }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 100; transform: scaleX(0); transform-origin: left;
+  background: linear-gradient(90deg, #4f46e5, #14b8a6, #fbbf24); will-change: transform; }
+
+/* hero ambience */
+.float-a { animation: floaty 9s ease-in-out infinite; }
+.float-b { animation: floaty 12s ease-in-out -3s infinite reverse; }
+@keyframes floaty { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(30px,-40px,0) scale(1.08); } }
+.fade-up { opacity: 0; animation: fadeUp .9s var(--ease) forwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translate3d(0,24px,0); } to { opacity: 1; transform: none; } }
+.bounce-soft { animation: bounceSoft 2s ease-in-out infinite; }
+@keyframes bounceSoft { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+/* sliding-fill button */
+.btn-fill { position: relative; overflow: hidden; isolation: isolate; }
+.btn-fill::before { content: ""; position: absolute; inset: 0; background: #fff; transform: translate3d(0, 101%, 0); transition: transform .45s var(--ease); z-index: -1; border-radius: inherit; }
+.btn-fill:hover::before { transform: none; }
+
+/* underline link */
+.link-line { position: relative; }
+.link-line::after { content: ""; position: absolute; left: 0; bottom: -3px; height: 1px; width: 100%; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
+.link-line:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* dashboard polish */
+main, .page-enter { animation: pageIn .5s var(--ease) both; }
+@keyframes pageIn { from { opacity: 0; transform: translate3d(0,10px,0); } to { opacity: 1; transform: none; } }
+.sidebar-nav a, .navbar-container a { transition: transform .25s var(--ease), background-color .25s; }
+.sidebar-nav a:hover, .navbar-container a:hover { transform: translateX(4px); }
+.card, .tilt { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  .reveal, .split-word { opacity: 1; transform: none; }
+}
+
+/* the global * rule overrides inherited fonts; make heading helpers win for children too */
+.playfair, .playfair *, .dancing, .dancing * { font-family: "Fraunces", serif; }
