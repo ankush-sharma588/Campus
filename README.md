@@ -149,10 +149,3 @@ cd college-placement-management-system
 - Backend: optional; root directory `backend` works as a serverless function (`backend/vercel.json`), but Render is better for file uploads and long requests.
 
 **Docker**: `docker-compose.yaml` and per-app Dockerfiles are included.
-
-## Contributors
-- **Member 1**: [Moin MN](https://www.linkedin.com/in/moinnaik/)
-- **Member 2**: Rafat Muskan Shaikh
-- **Member 3**: Saquib Patel
-- **Member 4**: Neeraj Kumar
-
