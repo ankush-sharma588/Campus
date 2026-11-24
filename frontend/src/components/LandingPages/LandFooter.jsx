@@ -29,7 +29,6 @@ function LandFooter() {
         {/* Footer Text */}
         <div className="text-center text-sm text-indigo-200">
           <p><span className="text-white font-semibold">PlaceHub</span> · Campus Placement Portal</p>
-          <p className="mt-1 text-xs text-indigo-300">Based on the open-source CPMS project by Moin MN</p>
         </div>
       </div>
     </footer>
