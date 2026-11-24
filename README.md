@@ -1,7 +1,4 @@
 # PlaceHub — Campus Placement Portal
-
-> Based on the open-source College Placement Management System (CPMS) by [Moin MN](https://github.com/MoinMN) (credit required; non-commercial use).
-
 ## Table of Contents
 - [PlaceHub Campus Placement Portal](#college-placement-management-system)
   - [Table of Contents](#table-of-contents)
@@ -18,7 +15,7 @@
   - [Contributors](#contributors)
 
 ## Introduction
-The **PlaceHub Campus Placement Portal** is a web application designed to streamline and digitize the placement process in colleges and universities. Developed by final year students of **Rizvi College of Engineering**, the system features a multi-role platform catering to students, TPO (Training and Placement Officer), management, and super admin. It aims to minimize manual efforts, improve transparency, and provide real-time tracking of the placement cycle.
+The **PlaceHub Campus Placement Portal** is a web application designed to streamline and digitize the placement process in colleges and universities. The system features a multi-role platform catering to students, TPO (Training and Placement Officer), management, and super admin. It aims to minimize manual efforts, improve transparency, and provide real-time tracking of the placement cycle.
 
 ## Features
 - **Student Portal**: Register and login, update profile, upload resume, view available job opportunities, apply for jobs, and track application status.
