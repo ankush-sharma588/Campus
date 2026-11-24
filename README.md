@@ -1,6 +1,6 @@
 # PlaceHub — Campus Placement Portal
 
-> Based on the open-source College Placement Management System (CPMS) by [Moin MN](https://github.com/MoinMN) · [LinkedIn](https://www.linkedin.com/in/moinnaik/). See [LICENSE](LICENSE) for terms (credit required, non-commercial use).
+> Based on the open-source College Placement Management System (CPMS) by· [LinkedIn](https://www.linkedin.com/in/moinnaik/). See [LICENSE](LICENSE) for terms (credit required, non-commercial use).
 
 ## Table of Contents
 - [College Placement Management System](#college-placement-management-system)
