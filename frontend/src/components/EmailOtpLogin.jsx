@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import Logo from '../assets/CPMS.png';
+import Logo from '../assets/placehub-mark.svg';
 import isAuthenticated from '../utility/auth.utility';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -149,7 +149,7 @@ export default function EmailOtpLogin({
         {!otpStep && alternateText && alternatePath && (
           <span className="text-center text-sm">{alternateText}{' '}<button type="button" className="text-indigo-700 font-bold" onClick={() => navigate(alternatePath)}>Click here</button></span>
         )}
-        <p className="text-xs text-center text-gray-500">© PlaceHub College Placement Management System</p>
+        <p className="text-xs text-center text-gray-500">© PlaceHub</p>
       </form>
     </div>
   );

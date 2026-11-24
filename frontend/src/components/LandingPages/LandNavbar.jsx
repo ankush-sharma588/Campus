@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Logo from '../../assets/CPMS.png';
+import Logo from '../../assets/placehub-mark.svg';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 

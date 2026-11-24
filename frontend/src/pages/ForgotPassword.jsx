@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import Logo from '../assets/CPMS.png';
+import Logo from '../assets/placehub-mark.svg';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -83,7 +83,7 @@ export default function ForgotPassword() {
 
         {step === 'done' && <button className="btn btn-primary w-full" type="submit">Return to login</button>}
         {step !== 'done' && <button type="button" className="text-sm text-indigo-700 font-semibold" onClick={() => navigate(loginRoute)}>Back to login</button>}
-        <p className="text-xs text-center text-gray-500">© PlaceHub College Placement Management System</p>
+        <p className="text-xs text-center text-gray-500">© PlaceHub</p>
       </form>
     </div>
   );

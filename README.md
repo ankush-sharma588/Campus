@@ -1,9 +1,9 @@
 # PlaceHub — Campus Placement Portal
 
-> Based on the open-source College Placement Management System (CPMS) by· [LinkedIn](https://www.linkedin.com/in/moinnaik/). See [LICENSE](LICENSE) for terms (credit required, non-commercial use).
+> Based on the open-source College Placement Management System (CPMS) by [Moin MN](https://github.com/MoinMN) (credit required; non-commercial use).
 
 ## Table of Contents
-- [College Placement Management System](#college-placement-management-system)
+- [PlaceHub Campus Placement Portal](#college-placement-management-system)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Features](#features)
@@ -18,7 +18,7 @@
   - [Contributors](#contributors)
 
 ## Introduction
-The **College Placement Management System** is a web application designed to streamline and digitize the placement process in colleges and universities. Developed by final year students of **Rizvi College of Engineering**, the system features a multi-role platform catering to students, TPO (Training and Placement Officer), management, and super admin. It aims to minimize manual efforts, improve transparency, and provide real-time tracking of the placement cycle.
+The **PlaceHub Campus Placement Portal** is a web application designed to streamline and digitize the placement process in colleges and universities. Developed by final year students of **Rizvi College of Engineering**, the system features a multi-role platform catering to students, TPO (Training and Placement Officer), management, and super admin. It aims to minimize manual efforts, improve transparency, and provide real-time tracking of the placement cycle.
 
 ## Features
 - **Student Portal**: Register and login, update profile, upload resume, view available job opportunities, apply for jobs, and track application status.
@@ -90,7 +90,7 @@ The **College Placement Management System** is a web application designed to str
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/moinmn/college-placement-management-system.git
+git clone https://github.com/ankush-sharma588/Campus.git
 cd college-placement-management-system
 ```
 
