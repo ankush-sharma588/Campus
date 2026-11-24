@@ -27,7 +27,7 @@ async function VerifyOtp(req, res) {
       return res.status(500).json({ msg: 'Authentication is not configured on the server.' });
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '12h' });
     user.token = token;
     await user.save();
     return res.status(200).json({ verified: true, token, msg: 'Login successful.' });
@@ -45,7 +45,6 @@ async function ResendOtp(req, res) {
   }
 
   try {
-    // Login and password-reset resends must originate from an existing challenge.
     if (purpose === 'login' || purpose === 'password_reset') {
       const result = await resendOtp({ email, purpose });
       return res.status(200).json({ msg: 'A new verification code has been sent.', ...result });
@@ -57,7 +56,10 @@ async function ResendOtp(req, res) {
     return res.status(200).json({ msg: 'A new verification code has been sent.', ...result });
   } catch (error) {
     console.error('OTP resend error:', error.message);
-    return res.status(error.statusCode || 503).json({ msg: error.statusCode ? error.message : 'Could not send the verification email. Please try again later.', retryAfter: error.retryAfter });
+    return res.status(error.statusCode || 503).json({
+      msg: error.statusCode ? error.message : 'Could not send the verification email. Please try again later.',
+      retryAfter: error.retryAfter,
+    });
   }
 }
 
@@ -67,15 +69,28 @@ async function ForgotPassword(req, res) {
 
   try {
     const user = await User.findOne({ email });
-    if (user) {
-      try {
-        await issueOtp({ user, purpose: 'password_reset' });
-      } catch (error) {
-        // Keep the response identical for known and unknown email addresses.
-        console.error('Password reset OTP delivery:', error.message);
-      }
+    if (!user) {
+      // Keep unknown-account responses generic to avoid exposing registered users.
+      return res.status(200).json({ msg: 'If an account exists for that email, a password reset code has been sent.' });
     }
-    return res.status(200).json({ msg: 'If an account exists for that email, a password reset code has been sent.' });
+
+    try {
+      const delivery = await issueOtp({ user, purpose: 'password_reset' });
+      return res.status(200).json({
+        msg: 'A password reset code has been sent. It expires in 5 minutes.',
+        expiresInSeconds: delivery.expiresInSeconds,
+        resendAfterSeconds: delivery.resendAfterSeconds,
+      });
+    } catch (deliveryError) {
+      // Do not silently tell the user that an OTP was sent when Brevo rejected it.
+      console.error('Password reset OTP delivery failed:', deliveryError.message);
+      return res.status(deliveryError.statusCode || 503).json({
+        msg: deliveryError.statusCode
+          ? deliveryError.message
+          : 'Email delivery is temporarily unavailable. Please try again later.',
+        retryAfter: deliveryError.retryAfter,
+      });
+    }
   } catch (error) {
     console.error('Forgot password request error:', error.message);
     return res.status(500).json({ msg: 'Unable to process the request. Please try again later.' });
@@ -102,7 +117,7 @@ async function ResetPassword(req, res) {
     const bcrypt = require('bcrypt');
     user.password = await bcrypt.hash(newPassword, 12);
     user.emailVerified = true;
-    user.token = undefined; // Revoke any existing session after a password reset.
+    user.token = undefined;
     await user.save();
 
     await require('../../models/otpChallenge.model').deleteMany({ email, userId: user._id });

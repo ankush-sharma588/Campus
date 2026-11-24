@@ -42,11 +42,22 @@ export default function EmailOtpLogin({
     setLoading(true);
     try {
       const response = await axios.post(`${BASE_URL}${loginPath}`, { email, password });
-      if (!response.data?.otpRequired) {
-        throw new Error('The server did not start email verification. Please contact the administrator.');
+
+      // Current API returns a signed token immediately after password checks.
+      if (response.data?.token) {
+        localStorage.setItem('token', response.data.token);
+        navigate(dashboardPath, { replace: true });
+        return;
       }
-      setOtpStep(true);
-      setMessage(`A 6-digit verification code has been sent to ${response.data.email || email}.`);
+
+      // Backward compatibility while an older API instance is still deployed.
+      if (response.data?.otpRequired) {
+        setOtpStep(true);
+        setMessage(`A 6-digit verification code has been sent to ${response.data.email || email}.`);
+        return;
+      }
+
+      throw new Error(response.data?.msg || 'The server did not return a login token.');
     } catch (requestError) {
       setError(requestError.response?.data?.msg || requestError.message || 'Unable to start login. Please try again.');
     } finally {
@@ -63,11 +74,7 @@ export default function EmailOtpLogin({
     }
     setLoading(true);
     try {
-      const response = await axios.post(`${BASE_URL}/auth/otp/verify`, {
-        email,
-        purpose: 'login',
-        code,
-      });
+      const response = await axios.post(`${BASE_URL}/auth/otp/verify`, { email, purpose: 'login', code });
       localStorage.setItem('token', response.data.token);
       navigate(dashboardPath, { replace: true });
     } catch (requestError) {
@@ -136,7 +143,7 @@ export default function EmailOtpLogin({
         )}
 
         <button className="btn btn-primary w-full" type="submit" disabled={loading}>
-          {loading ? 'Please wait...' : otpStep ? 'Verify & Log In' : 'Continue'}
+          {loading ? 'Please wait...' : otpStep ? 'Verify & Log In' : 'Log In'}
         </button>
 
         {!otpStep && alternateText && alternatePath && (
