@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -56,3 +56,7 @@ function BreadcrumbExp({ header }) {
 }
 
 export default BreadcrumbExp;
+
+BreadcrumbExp.propTypes = {
+  header: PropTypes.string,
+};

@@ -1,8 +1,40 @@
-# Environment variables and secrets
+# Node.js dependencies (always restore from the lockfiles)
+**/node_modules/
+
+# Generated frontend and test output
+**/dist/
+**/build/
+**/.vite/
+**/coverage/
+**/.cache/
+**/.turbo/
+
+# Local environment files and credentials
 .env
 .env.*
-!.env.example
-
 **/.env
 **/.env.*
+!.env.example
 !**/.env.example
+
+# Runtime files and logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.pid
+*.seed
+logs/
+.mongo-data/
+data/
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Locally generated Kubernetes Secret manifests
+kubernetes/*-secret.yaml

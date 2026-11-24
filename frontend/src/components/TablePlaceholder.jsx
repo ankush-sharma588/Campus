@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Placeholder } from 'react-bootstrap';
 
 function TablePlaceholder() {

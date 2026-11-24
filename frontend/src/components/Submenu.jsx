@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Tailwind CSS classes will replace styled-components
@@ -26,17 +27,9 @@ const DropdownLink = ({ to, active, children }) => (
 );
 
 const SubMenu = ({ item, currentPath }) => {
-  const [subnav, setSubnav] = useState(false);
-
-  useEffect(() => {
-    if (item.subNav && item.subNav.some(subItem => currentPath.includes(subItem.path))) {
-      setSubnav(true);
-    } else {
-      setSubnav(false);
-    }
-  }, [currentPath, item.subNav]);
-
-  const showSubnav = () => setSubnav(!subnav);
+  const hasActiveSubItem = Boolean(item.subNav?.some((subItem) => currentPath.includes(subItem.path)));
+  const [subnav, setSubnav] = useState(hasActiveSubItem);
+  const showSubnav = () => setSubnav((current) => !current);
 
   return (
     <>
@@ -82,3 +75,26 @@ const SubMenu = ({ item, currentPath }) => {
 };
 
 export default SubMenu;
+
+SidebarLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  active: PropTypes.bool,
+  children: PropTypes.node,
+  hasSubnav: PropTypes.bool,
+};
+
+SidebarLabel.propTypes = {
+  children: PropTypes.node,
+};
+
+DropdownLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  active: PropTypes.bool,
+  children: PropTypes.node,
+};
+
+SubMenu.propTypes = {
+  item: PropTypes.object.isRequired,
+  currentPath: PropTypes.string.isRequired,
+};

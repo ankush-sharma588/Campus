@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Toast from '../Toast';
 import ModalBox from '../Modal';
@@ -7,7 +8,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 function Management() {
-  document.title = 'PlaceHub | Management Users';
+  usePageTitle("PlaceHub | Management Users");
 
   // Management users store here
   const [users, setUsers] = useState([]);

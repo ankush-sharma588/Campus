@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../assets/placehub-mark.svg';
@@ -7,7 +8,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export default function ForgotPassword() {
-  document.title = 'PlaceHub | Reset Password';
+  usePageTitle("PlaceHub | Reset Password");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const role = searchParams.get('role') || 'student';

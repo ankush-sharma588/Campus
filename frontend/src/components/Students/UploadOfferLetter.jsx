@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
@@ -83,3 +84,8 @@ const UploadResume = ({ jobId, fetchJobDetailsOfApplicant }) => {
 };
 
 export default UploadResume;
+
+UploadResume.propTypes = {
+  jobId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  fetchJobDetailsOfApplicant: PropTypes.func,
+};

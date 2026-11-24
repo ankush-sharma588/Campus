@@ -1,4 +1,3 @@
-import React from 'react';
 import { Reveal, Tilt, SplitText } from './Motion';
 import Student from '../../assets/student.jpg';
 import TPO from '../../assets/tpo.jpg';

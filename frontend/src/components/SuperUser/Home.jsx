@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Home() {
-  document.title = 'PlaceHub | Admin Dashboard';
+  usePageTitle("PlaceHub | Admin Dashboard");
 
   const [countUsers, setCountUsers] = useState({});
   const [loading, setLoading] = useState(true);

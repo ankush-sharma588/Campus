@@ -1,66 +1,83 @@
-version: '3.8'
+name: placehub
 
 services:
-  # MongoDB Database
   mongodb:
     image: mongo:7-jammy
-    container_name: cpms-mongodb
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      MONGO_INITDB_DATABASE: CPMS
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:?Set MONGO_ROOT_USERNAME in the root .env file}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?Set MONGO_ROOT_PASSWORD in the root .env file}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-placehub}
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb
-    networks:
-      - network
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      test:
+        - CMD-SHELL
+        - >-
+          mongosh --quiet --username "$$MONGO_INITDB_ROOT_USERNAME"
+          --password "$$MONGO_INITDB_ROOT_PASSWORD"
+          --authenticationDatabase admin
+          --eval "db.adminCommand('ping').ok" >/dev/null
       interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 20s
+      retries: 10
+      start_period: 25s
+    networks:
+      - placehub
 
-  # Backend Service
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: cpms-backend
     restart: unless-stopped
     env_file:
-      ./backend/.env
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      PORT: "4518"
+      MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb:27017/${MONGO_DATABASE:-placehub}?authSource=admin
+      CLIENT_URL: http://localhost:8080,http://localhost:5173
+      FRONTEND_URL: http://localhost:8080
     expose:
       - "4518"
     depends_on:
       mongodb:
         condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - >-
+          require('http').get('http://127.0.0.1:4518/health',
+          r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
     networks:
-      - network
+      - placehub
 
-  # Frontend Service with Nginx
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: cpms-frontend
+      args:
+        VITE_BACKEND_URL: /api
     restart: unless-stopped
-    ports:
-      - "80:80"
-    env_file:
-      - ./frontend/.env
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:80"
     networks:
-      - network
+      - placehub
 
 networks:
-  network:
+  placehub:
     driver: bridge
 
 volumes:
   mongodb_data:
-    driver: local
   mongodb_config:
-    driver: local

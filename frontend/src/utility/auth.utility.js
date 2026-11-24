@@ -9,7 +9,7 @@ const isAuthenticated = () => {
     // console.log(decodedToken);
     const currentTime = Date.now() / 1000; // Current time in seconds
     return decodedToken.exp > currentTime; // Check if the token is expired
-  } catch (error) {
+  } catch {
     return false; // If there's an error decoding the token, consider the user not authenticated
   }
 };

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useState, useEffect } from 'react';
 import TablePlaceholder from '../TablePlaceholder';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
@@ -8,7 +9,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function MyApplied() {
-  document.title = 'PlaceHub | My Applied Job';
+  usePageTitle("PlaceHub | My Applied Job");
   const [loading, setLoading] = useState(true);
 
   // useState for load data

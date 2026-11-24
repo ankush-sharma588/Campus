@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
@@ -25,10 +26,8 @@ const StudentTable = ({ branchName, studentData }) => {
           role: res.data.role,
         });
       })
-      .catch(err => {
-        console.log("AddUserTable.jsx => ", err);
-        setToastMessage(err);
-        setShowToast(true);
+      .catch((error) => {
+        console.error("Could not load the current user role:", error);
       });
   }, []);
 
@@ -53,8 +52,8 @@ const StudentTable = ({ branchName, studentData }) => {
           <tbody>
             {
               studentData?.length > 0 ? (
-                studentData
-                  ?.sort((a, b) => {
+                [...studentData]
+                  .sort((a, b) => {
                     const rollA = parseInt(a?.studentProfile?.rollNumber || 0);
                     const rollB = parseInt(b?.studentProfile?.rollNumber || 0);
                     return rollA - rollB; // Sort in ascending order of roll numbers
@@ -110,3 +109,8 @@ const StudentTable = ({ branchName, studentData }) => {
 
 
 export default StudentTable;
+
+StudentTable.propTypes = {
+  branchName: PropTypes.string,
+  studentData: PropTypes.arrayOf(PropTypes.object),
+};

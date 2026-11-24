@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../../assets/placehub-mark.svg';
@@ -8,7 +9,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export default function Signup() {
-  document.title = 'PlaceHub | Student Sign Up';
+  usePageTitle("PlaceHub | Student Sign Up");
   const navigate = useNavigate();
   const location = useLocation();
   const [formData, setFormData] = useState({ first_name: '', email: location.state?.prefillEmail || '', number: '', password: '' });

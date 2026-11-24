@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
 import useInView from '../../hooks/useInView';
 
 const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,10 +67,10 @@ export function Tilt({ children, className = '' }) {
 /* Animated number */
 export function CountUp({ to, suffix = '', duration = 1600 }) {
   const [ref, inView] = useInView({ threshold: 0.5 });
-  const [val, setVal] = useState(0);
+  const [val, setVal] = useState(() => (reduced() ? to : 0));
   useEffect(() => {
     if (!inView) return;
-    if (reduced()) { setVal(to); return; }
+    if (reduced()) return;
     let start; let id;
     const tick = (t) => {
       if (!start) start = t;
@@ -79,7 +80,7 @@ export function CountUp({ to, suffix = '', duration = 1600 }) {
     };
     id = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(id);
-  }, [inView]);
+  }, [inView, to, duration]);
   return <span ref={ref}>{val.toLocaleString()}{suffix}</span>;
 }
 
@@ -113,3 +114,34 @@ export function ScrollProgress() {
   }, []);
   return <div ref={bar} className="scroll-progress" />;
 }
+
+Reveal.propTypes = {
+  children: PropTypes.node,
+  delay: PropTypes.number,
+  className: PropTypes.string,
+  as: PropTypes.elementType,
+};
+SplitText.propTypes = {
+  text: PropTypes.string,
+  className: PropTypes.string,
+  delay: PropTypes.number,
+  step: PropTypes.number,
+};
+Magnetic.propTypes = {
+  children: PropTypes.node,
+  strength: PropTypes.number,
+  className: PropTypes.string,
+};
+Tilt.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+CountUp.propTypes = {
+  to: PropTypes.number,
+  suffix: PropTypes.string,
+  duration: PropTypes.number,
+};
+Marquee.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.node),
+  reverse: PropTypes.bool,
+};

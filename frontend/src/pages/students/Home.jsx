@@ -1,11 +1,11 @@
-import React from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
 import NoticeBox from '../../components/NoticeBox';
 import NotificationBox from '../../components/Students/NotificationBox';
 
 // student 
 function Home() {
   // Set the page title
-  document.title = 'PlaceHub | Student Dashboard';
+  usePageTitle("PlaceHub | Student Dashboard");
 
   return (
     <>

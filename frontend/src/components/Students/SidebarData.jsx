@@ -1,6 +1,5 @@
 // Filename - components/SidebarData.js
 
-import React from "react";
 import { AiFillHome } from "react-icons/ai";
 import { ImProfile } from "react-icons/im";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPlayListAddLine } from "react-icons/ri";

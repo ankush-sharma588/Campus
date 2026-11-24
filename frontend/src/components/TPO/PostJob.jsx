@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -10,7 +11,7 @@ import ModalBox from '../Modal';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function PostJob() {
-  document.title = 'PlaceHub | Post Job';
+  usePageTitle("PlaceHub | Post Job");
   const navigate = useNavigate();
 
   const { jobId } = useParams();

@@ -1,8 +1,8 @@
-import React from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
 import EmailOtpLogin from '../../components/EmailOtpLogin';
 
 export default function LoginTPO() {
-  document.title = 'PlaceHub | TPO Login';
+  usePageTitle("PlaceHub | TPO Login");
   return (
     <EmailOtpLogin
       title="TPO Log In"

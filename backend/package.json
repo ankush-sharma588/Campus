@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test:email": "node scripts/test-email.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test",
+    "check": "node scripts/check-syntax.js"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,6 @@
     "serve-static": ">=2.2.1"
   },
   "engines": {
-    "node": ">=20.19.0"
+    "node": "22.x"
   }
 }

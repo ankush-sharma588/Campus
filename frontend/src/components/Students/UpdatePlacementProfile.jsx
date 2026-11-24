@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -11,7 +12,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 function UpdatePlacementProfile() {
-  document.title = 'PlaceHub | Placement Profile';
+  usePageTitle("PlaceHub | Placement Profile");
 
   // userData to store user data get from userId
   const [userData, setUserData] = useState(null);

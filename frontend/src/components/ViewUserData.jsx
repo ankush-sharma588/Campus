@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
@@ -9,7 +10,7 @@ import Toast from './Toast';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function ViewUserData() {
-  document.title = 'PlaceHub | User Details';
+  usePageTitle("PlaceHub | User Details");
   const navigate = useNavigate();
 
   // userId but its userId

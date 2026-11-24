@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Toast from '../Toast';
 import ModalBox from '../Modal';
@@ -6,7 +7,7 @@ import AddUserTable from '../AddUserTable';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function AddTPO() {
-  document.title = 'PlaceHub | TPO Users';
+  usePageTitle("PlaceHub | TPO Users");
   // tpo users store here
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);

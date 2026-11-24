@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -10,7 +11,7 @@ import Toast from './Toast';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function UserDetails() {
-  document.title = 'PlaceHub | Complete Profile';
+  usePageTitle("PlaceHub | Complete Profile");
   const navigate = useNavigate();
   const location = useLocation();
 

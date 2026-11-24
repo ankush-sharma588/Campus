@@ -1,5 +1,6 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Outlet, useLocation, useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { useState, useEffect, lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 // Landing Page 
 // import LandingPage from "./pages/LandingPage";
 const LandingPage = lazy(() => import('./pages/LandingPage.jsx'))
@@ -60,28 +61,24 @@ import LoadingComponent from "./components/Loading.jsx";
 
 
 function Layout({ header }) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // Get sidebar state from localStorage or default to false
-  const isSidebarOpenFromStorage = localStorage.getItem('isSidebarOpen') === 'true';
+  // Keep the sidebar closed on narrow screens without synchronously setting state in an effect.
+  const [isSidebarVisible, setSidebarVisible] = useState(() => {
+    const isNarrowScreen = window.matchMedia('(max-width: 950px)').matches;
+    const storedPreference = localStorage.getItem('isSidebarOpen') === 'true';
+    return isNarrowScreen ? false : storedPreference;
+  });
 
   useEffect(() => {
-    const checkScreenWidth = () => {
-      const mediaQuery = window.matchMedia('(max-width: 950px)').matches;
-      if (mediaQuery) {
-        localStorage.setItem('isSidebarOpen', false); // Adjust this to update the state in your context or component
+    const handleResize = () => {
+      if (window.matchMedia('(max-width: 950px)').matches) {
         setSidebarVisible(false);
+        localStorage.setItem('isSidebarOpen', 'false');
       }
     };
-    // Listen for location changes
-    checkScreenWidth(); // Check immediately when component mounts
-    return () => window.removeEventListener('resize', checkScreenWidth);
-  }, [location.pathname, navigate]);
 
-
-  // State to control sidebar visibility
-  const [isSidebarVisible, setSidebarVisible] = useState(isSidebarOpenFromStorage);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
 
   // Toggle sidebar visibility and update localStorage
@@ -396,3 +393,7 @@ function App() {
 }
 
 export default App
+
+Layout.propTypes = {
+  header: PropTypes.string,
+};

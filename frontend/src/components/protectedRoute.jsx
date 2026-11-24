@@ -1,71 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useUser } from "../context/userContext";
-import Loading from "./Loading";
+import PropTypes from 'prop-types';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useUser } from '../context/useUser';
+import Loading from './Loading';
+
+const ROLE_DASHBOARDS = {
+  student: '/student/dashboard',
+  tpo_admin: '/tpo/dashboard',
+  management_admin: '/management/dashboard',
+  superuser: '/admin/dashboard',
+};
+
+const PROFILE_COMPLETION_ROUTES = {
+  student: (user) => `/student/complete-profile/${user.id}`,
+  tpo_admin: (user) => `/tpo/complete-profile/${user.id}`,
+  management_admin: (user) => `/management/complete-profile/${user.id}`,
+};
 
 const ProtectedRoute = ({ allowedRoles }) => {
   const { user, loading } = useUser();
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const [load, setLoad] = useState(true);
+  if (loading) return <Loading />;
 
-  // const [load, setLoad] = useState(true);
-
-  const redirectUser = () => {
-    if (!user) {
-      return <Navigate to="/" state={{ from: location }} replace />;
-    }
-
-    // check if any user trying another users request
-    if (!allowedRoles.includes(user.role)) {
-      // console.log(user.role);
-      if (user.role === 'student') navigate("/student/dashboard", { replace: true })
-      else if (user.role === 'tpo_admin') navigate("/tpo/dashboard")
-      else if (user.role === 'management_admin') navigate("/management/dashboard", { replace: true })
-      else if (user.role === 'superuser') navigate("/admin/dashboard")
-      else navigate("/404")
-
-      return;
-    }
-    setLoad(false);
+  if (!user) {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  useEffect(() => {
-    redirectUser();
+  if (!allowedRoles.includes(user.role)) {
+    return <Navigate to={ROLE_DASHBOARDS[user.role] || '/404'} replace />;
+  }
 
-  }, [loading, navigate, user, allowedRoles]);
-
-  // if (!(user && allowedRoles.includes(user.role))) {
-  //   navigate('../404');    
-  // }
-
-  useEffect(() => {
-    if (user.isProfileCompleted === 'false') {
-      if (user.role === 'student') navigate(`/student/complete-profile/${user.id}`);
-      if (user.role === 'tpo_admin') navigate(`/tpo/complete-profile/${user.id}`);
-      if (user.role === 'management_admin') navigate(`/management/complete-profile/${user.id}`);
-      return;
+  const profileCompletionRoute = PROFILE_COMPLETION_ROUTES[user.role];
+  if (user.isProfileCompleted === 'false' && profileCompletionRoute) {
+    const requiredPath = profileCompletionRoute(user);
+    // The completion form itself is protected too; allow it to render while
+    // redirecting every other route until the profile has been completed.
+    if (location.pathname !== requiredPath) {
+      return <Navigate to={requiredPath} replace />;
     }
-    setLoad(false);
-  }, []);
+  }
 
+  return <Outlet />;
+};
 
-  // If user has the proper role, render the children routes
-  return (
-    <>
-      {
-        (loading || load) ? (
-          // <div className="flex justify-center h-72 items-center">
-          //   <i className="fa-solid fa-spinner fa-spin text-3xl" />
-          // </div>
-          <Loading />
-        ) : (
-          <Outlet />
-        )
-      }
-    </>
-  )
+ProtectedRoute.propTypes = {
+  allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default ProtectedRoute;

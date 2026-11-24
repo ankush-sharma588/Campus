@@ -8,16 +8,22 @@ const app = express();
 // Render runs the API behind a reverse proxy; trust one proxy hop for client IP rate limits.
 app.set('trust proxy', 1);
 
-// CORS: set CLIENT_URL to your deployed frontend (comma-separated for several).
-// If it is not set (local dev) every origin is allowed.
+// CORS: set CLIENT_URL to the deployed frontend origin (comma-separated for several).
+// Local development stays permissive when CLIENT_URL is omitted; production rejects browser origins until configured.
 const allowedOrigins = (process.env.CLIENT_URL || '')
   .split(',')
   .map((origin) => origin.trim().replace(/\/$/, ''))
   .filter(Boolean);
+const isProduction = process.env.NODE_ENV === 'production';
+const allowUnconfiguredLocalOrigins = !isProduction && allowedOrigins.length === 0;
+
+if (isProduction && allowedOrigins.length === 0) {
+  console.error('[config] CLIENT_URL must contain the deployed frontend origin in production.');
+}
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin) || allowUnconfiguredLocalOrigins) return callback(null, true);
     return callback(new Error(`Origin ${origin} not allowed by CORS`));
   },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

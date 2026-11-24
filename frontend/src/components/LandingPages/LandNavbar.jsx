@@ -9,8 +9,8 @@ function LandingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastY = React.useRef(0);
-  const [buttonSize, setButtonSize] = useState('lg');
-  const [logoText, setLogoText] = useState('PlaceHub');
+  const [buttonSize, setButtonSize] = useState(() => (window.innerWidth <= 600 ? 'sm' : window.innerWidth <= 768 ? 'md' : 'lg'));
+  const logoText = 'PlaceHub';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,17 +24,13 @@ function LandingNavbar() {
       const width = window.innerWidth;
       if (width <= 600) {
         setButtonSize('sm');
-        setLogoText('PlaceHub');
       } else if (width <= 768) {
         setButtonSize('md');
-        setLogoText('PlaceHub');
       } else {
         setButtonSize('lg');
-        setLogoText('PlaceHub');
       }
     };
 
-    handleResize();
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
 

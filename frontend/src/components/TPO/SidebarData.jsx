@@ -1,4 +1,3 @@
-import React from "react";
 import { FaListUl, FaCheckSquare, FaEnvelopeOpenText } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { RiArrowDownSFill, RiArrowUpSFill, RiPlayListAddLine } from "react-icons/ri";

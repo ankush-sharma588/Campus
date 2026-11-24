@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -10,7 +11,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 function ViewJobPost() {
-  document.title = 'PlaceHub | View Job Post';
+  usePageTitle("PlaceHub | View Job Post");
   const { jobId } = useParams();
 
   const [data, setData] = useState({});

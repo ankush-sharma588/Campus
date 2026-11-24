@@ -1,13 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { UserContext } from "./UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 import Loading from "../components/Loading";
-
-// Create a context for user authentication
-const UserContext = createContext();
-
-export const useUser = () => useContext(UserContext);
 
 // User provider to wrap the application
 export const UserProvider = ({ children }) => {
@@ -31,15 +28,13 @@ export const UserProvider = ({ children }) => {
         }
       } catch (error) {
         console.error("Error fetching user details", error);
-        if (error.response.data) {
-          if (error.response.data.msg) {
+        if (error.response?.data?.msg) {
             localStorage.removeItem('token');
-            const dataToPass = {
-              showToastPass: true,
-              toastMessagePass: error.response.data.msg
-            }
-            navigate('../', { state: dataToPass });
-          }
+          const dataToPass = {
+            showToastPass: true,
+            toastMessagePass: error.response.data.msg
+          };
+          navigate('/', { state: dataToPass });
         }
         setUser(null); // In case of an error, reset user to null
       } finally {
@@ -49,7 +44,7 @@ export const UserProvider = ({ children }) => {
 
     // Fetch user details on component mount
     fetchUserDetails();
-  }, []);
+  }, [navigate]);
 
   // Value to be passed to consuming components
   const value = { user, setUser, loading };
@@ -71,4 +66,8 @@ export const UserProvider = ({ children }) => {
     </>
   );
 
+};
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

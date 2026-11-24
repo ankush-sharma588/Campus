@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
 
 const CustomToast = ({ show, onClose, message, delay = 3000, position = 'bottom-end' }) => {
@@ -25,3 +26,11 @@ const CustomToast = ({ show, onClose, message, delay = 3000, position = 'bottom-
 };
 
 export default CustomToast;
+
+CustomToast.propTypes = {
+  show: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  message: PropTypes.node,
+  delay: PropTypes.number,
+  position: PropTypes.string,
+};

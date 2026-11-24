@@ -1,31 +1,19 @@
-# frontend/Dockerfile
-# Stage 1: Build Vite + React app
-FROM node:18-alpine AS build
-
+# Vite 7 requires Node.js 20.19+; Node 22 is used for a consistent build.
+FROM node:22.23.5-bookworm-slim AS build
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci --no-audit --no-fund
 
-# Install dependencies
-RUN npm ci
-
-# Copy application code
 COPY . .
-
-# Build the Vite app (creates dist folder)
+# Vite variables are embedded at build time. /api is used only in Docker,
+# where nginx forwards /api/* to the backend container.
+ARG VITE_BACKEND_URL=/api
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 RUN npm run build
 
-# Stage 2: Serve with Nginx
-FROM nginx:alpine
-
-# Copy built files from build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy nginx configuration
+FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -29,3 +29,12 @@ function ModalBox({ show, close, header, body, btn, confirmAction }) {
 }
 
 export default ModalBox;
+
+ModalBox.propTypes = {
+  show: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
+  header: PropTypes.node,
+  body: PropTypes.node,
+  btn: PropTypes.node,
+  confirmAction: PropTypes.func.isRequired,
+};

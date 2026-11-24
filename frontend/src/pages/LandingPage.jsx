@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import LandingNavbar from '../components/LandingPages/LandNavbar';
 import LandingHeroPage from '../components/LandingPages/LandHeroPage';
 import LandingAbout from '../components/LandingPages/LandAbout';
@@ -10,24 +11,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 
 function LandingPage() {
-  document.title = 'PlaceHub | Campus Placement Portal';
+  usePageTitle("PlaceHub | Campus Placement Portal");
   const location = useLocation();
   const navigate = useNavigate();
 
-  // useState for toast display
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  // Show a one-time message passed back from an authentication redirect.
+  const { showToastPass = false, toastMessagePass = '' } = location.state || {};
+  const [showToast, setShowToast] = useState(Boolean(showToastPass));
+  const [toastMessage] = useState(toastMessagePass);
 
-  // if user came from any userContext page then this toast appears
-  const { showToastPass, toastMessagePass } = location.state || { showToastPass: false, toastMessagePass: '' };
   useEffect(() => {
     if (showToastPass) {
-      setToastMessage(toastMessagePass);
-      setShowToast(showToastPass);
-      // Clear the state after the toast is shown
       navigate('.', { replace: true, state: {} });
     }
-  }, []);
+  }, [showToastPass, navigate]);
 
   return (
     <>

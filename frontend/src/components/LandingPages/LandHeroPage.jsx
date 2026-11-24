@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import HeroImg from '../../assets/heroImg.jpg';
 import { useNavigate } from 'react-router-dom';
 import { SplitText, Magnetic } from './Motion';

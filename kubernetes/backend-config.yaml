@@ -5,8 +5,4 @@ metadata:
   namespace: cpms
 data:
   PORT: "4518"
-  # Use environment variables for credentials (from Secret)
-  MONGODB_URL: "mongodb://admin:admin@mongo-0.mongo.cpms.svc.cluster.local:27017/CPMS?authSource=admin"
-  CLOUDINARY_CLOUD_NAME: "CLOUDINARY_CLOUD_NAME"
-  SMTP_HOST: "SMTP_HOST"
-  SMTP_USER: "SMTP_USER"
+  NODE_ENV: "production"

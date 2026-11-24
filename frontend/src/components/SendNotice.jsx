@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -9,7 +10,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 import { useNavigate } from 'react-router-dom';
 
 function SendNotice() {
-  document.title = 'PlaceHub | Send Notice';
+  usePageTitle("PlaceHub | Send Notice");
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);  // Loading state for initial fetch

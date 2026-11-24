@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useCallback, useEffect, useState } from 'react';
 import { OverlayTrigger, Tooltip, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -10,7 +11,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 function ViewlAllNotice() {
-  document.title = 'PlaceHub | Notices';
+  usePageTitle("PlaceHub | Notices");
   const [loading, setLoading] = useState(true);
   const [noticesData, setNoticesData] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
@@ -49,32 +50,7 @@ function ViewlAllNotice() {
     fetchCurrentUser();
   }, []);
 
-  useEffect(() => {
-    if (currentUser?.role) {
-      fetchNotices();
-    }
-  }, [currentUser?.role]);
-
-  const handleDelete = async (noticeId) => {
-    setModalToPass(noticeId);
-    setShowModal(true);
-  };
-
-  const confirmDelete = async (noticeId) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/management/delete-notice?noticeId=${noticeId}`);
-      if (response?.data?.msg) {
-        fetchNotices();
-        setToastMessage(response.data.msg);
-        setShowToast(true);
-      }
-    } catch (error) {
-      console.log('Error while deleting notice => ', error);
-    }
-    setShowModal(false);
-  };
-
-  const fetchNotices = async () => {
+  const fetchNotices = useCallback(async () => {
     try {
       const response = await axios.get(`${BASE_URL}/management/get-all-notices`, {
         headers: {
@@ -98,7 +74,36 @@ function ViewlAllNotice() {
     } finally {
       setLoading(false);
     }
+  }, [currentUser?.role]);
+
+  useEffect(() => {
+    if (currentUser?.role) {
+      fetchNotices();
+    }
+  }, [currentUser?.role, fetchNotices]);
+
+
+
+  const handleDelete = async (noticeId) => {
+    setModalToPass(noticeId);
+    setShowModal(true);
   };
+
+  const confirmDelete = async (noticeId) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/management/delete-notice?noticeId=${noticeId}`);
+      if (response?.data?.msg) {
+        fetchNotices();
+        setToastMessage(response.data.msg);
+        setShowToast(true);
+      }
+    } catch (error) {
+      console.log('Error while deleting notice => ', error);
+    }
+    setShowModal(false);
+  };
+
+
 
 
   return (

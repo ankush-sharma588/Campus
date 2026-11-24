@@ -1,5 +1,4 @@
-import React from 'react';
-
+import PropTypes from 'prop-types';
 function Footer({ isSidebarVisible }) {
   return (
     <>
@@ -15,3 +14,7 @@ function Footer({ isSidebarVisible }) {
   )
 }
 export default Footer
+
+Footer.propTypes = {
+  isSidebarVisible: PropTypes.bool,
+};

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Reveal, CountUp, Marquee, SplitText } from './Motion';
 
 const stats = [

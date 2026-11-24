@@ -1,4 +1,3 @@
-import React from 'react';
 import { Magnetic } from './Motion';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import LogoImg from '../assets/placehub-mark.svg';
 function LoadingComponent() {
   return (

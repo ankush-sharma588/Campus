@@ -1,4 +1,4 @@
-import React from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FaRegSave } from 'react-icons/fa';
@@ -10,7 +10,7 @@ import Toast from './Toast';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 function Account() {
-  document.title = 'PlaceHub | Account';
+  usePageTitle("PlaceHub | Account");
 
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);

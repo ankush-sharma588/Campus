@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -243,3 +244,16 @@ function AddUserTable({
 }
 
 export default AddUserTable;
+
+AddUserTable.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
+  handleDeleteUser: PropTypes.func,
+  formOpen: PropTypes.bool,
+  setFormOpen: PropTypes.func,
+  data: PropTypes.object,
+  handleDataChange: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  userToAdd: PropTypes.string,
+  handleApproveStudent: PropTypes.func,
+};

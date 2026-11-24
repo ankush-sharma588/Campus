@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../assets/placehub-mark.svg';
@@ -154,3 +155,14 @@ export default function EmailOtpLogin({
     </div>
   );
 }
+
+EmailOtpLogin.propTypes = {
+  title: PropTypes.string.isRequired,
+  loginPath: PropTypes.string.isRequired,
+  dashboardPath: PropTypes.string.isRequired,
+  backgroundClass: PropTypes.string,
+  headingClass: PropTypes.string,
+  alternateText: PropTypes.string,
+  alternatePath: PropTypes.string,
+  forgotRole: PropTypes.string,
+};

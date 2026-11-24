@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 // Navbar.jsx
-import React from 'react';
 import { FaBars } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 
@@ -25,3 +25,8 @@ function Navbar({ isSidebarVisible, toggleSidebar }) {
 }
 
 export default Navbar;
+
+Navbar.propTypes = {
+  isSidebarVisible: PropTypes.bool,
+  toggleSidebar: PropTypes.func.isRequired,
+};

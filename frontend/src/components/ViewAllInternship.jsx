@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import usePageTitle from '../hooks/usePageTitle.js';
+import { useState, useEffect } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import Placeholder from 'react-bootstrap/Placeholder';
@@ -11,7 +12,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 import TablePlaceholder from './TablePlaceholder';
 
 function AddInternship() {
-  document.title = 'PlaceHub | My Internships';
+  usePageTitle("PlaceHub | My Internships");
   const navigate = useNavigate();
   const location = useLocation();
 

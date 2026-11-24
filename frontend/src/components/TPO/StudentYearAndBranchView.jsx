@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
+import { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import axios from 'axios';
 import StudentTable from './StudentTableTemplate';
@@ -6,7 +7,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 import AccordionPlaceholder from '../AccordionPlaceholder';
 
 function StudentYearAndBranchView() {
-  document.title = 'PlaceHub | All Students';
+  usePageTitle("PlaceHub | All Students");
 
   const [loading, setLoading] = useState(true);
 

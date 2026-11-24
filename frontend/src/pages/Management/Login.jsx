@@ -1,8 +1,8 @@
-import React from 'react';
+import usePageTitle from '../../hooks/usePageTitle.js';
 import EmailOtpLogin from '../../components/EmailOtpLogin';
 
 export default function LoginManagement() {
-  document.title = 'PlaceHub | Management Login';
+  usePageTitle("PlaceHub | Management Login");
   return (
     <EmailOtpLogin
       title="Management Log In"

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { IoIosArrowDropdownCircle } from 'react-icons/io';
@@ -8,13 +9,9 @@ import SubMenu from './Submenu';
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Sidebar = ({ isSidebarVisible }) => {
-  const [sidebar, setSidebar] = useState(isSidebarVisible);
-  const location = useLocation();
+    const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setSidebar(isSidebarVisible);
-  }, [isSidebarVisible]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -64,32 +61,38 @@ const Sidebar = ({ isSidebarVisible }) => {
     setDropdownOpen(!dropdownOpen);
   }
 
-  const fetchSidebarData = async () => {
-    if (loadData.role === 'superuser') {
-      const { SidebarData } = await import('./SuperUser/SidebarData');
-      setSidebarData(SidebarData);
-    } else if (loadData.role === 'management_admin') {
-      const { SidebarData } = await import('./Management/SidebarData');
-      setSidebarData(SidebarData);
-    } else if (loadData.role === 'tpo_admin') {
-      const { SidebarData } = await import('./TPO/SidebarData');
-      setSidebarData(SidebarData);
-    } else if (loadData.role === 'student') {
-      const { SidebarData } = await import('./Students/SidebarData');
-      setSidebarData(SidebarData);
-    }
-  };
-
   useEffect(() => {
-    if (loadData.role) {
-      fetchSidebarData();
-    }
+    let cancelled = false;
+
+    const loadSidebarData = async () => {
+      try {
+        let module;
+        if (loadData.role === 'superuser') {
+          module = await import('./SuperUser/SidebarData');
+        } else if (loadData.role === 'management_admin') {
+          module = await import('./Management/SidebarData');
+        } else if (loadData.role === 'tpo_admin') {
+          module = await import('./TPO/SidebarData');
+        } else if (loadData.role === 'student') {
+          module = await import('./Students/SidebarData');
+        }
+
+        if (!cancelled && module?.SidebarData) {
+          setSidebarData(module.SidebarData);
+        }
+      } catch (error) {
+        console.error('Could not load sidebar navigation:', error);
+      }
+    };
+
+    if (loadData.role) loadSidebarData();
+    return () => { cancelled = true; };
   }, [loadData.role]);
 
 
   return (
     <>
-      <nav className={`bg-[#eef0ff] w-[240px] min-h-screen h-full z-20 flex flex-col fixed top-0 transition-transform duration-300 ${sidebar ? 'translate-x-0' : '-translate-x-full'} shadow-md navbar-container lg:w-[260px]`}>
+      <nav className={`bg-[#eef0ff] w-[240px] min-h-screen h-full z-20 flex flex-col fixed top-0 transition-transform duration-300 ${isSidebarVisible ? 'translate-x-0' : '-translate-x-full'} shadow-md navbar-container lg:w-[260px]`}>
         {/* Main Sidebar Logo and Name */}
         <div className="flex items-center px-4 py-6 gap-3 bg-indigo-50">
           <img className="rounded-xl shadow-md" src={Logo} alt="Logo Image" width="75" height="75" />
@@ -106,7 +109,7 @@ const Sidebar = ({ isSidebarVisible }) => {
           <div className="flex flex-col justify-center w-full">
             {SidebarData.length > 0 ? (
               SidebarData.map((item, index) => (
-                <SubMenu item={item} key={index} currentPath={location.pathname} />
+                <SubMenu item={item} key={`${item.path}-${location.pathname}`} currentPath={location.pathname} />
               ))
             ) : (
               <p className="text-center text-gray-600">Loading...</p>
@@ -161,3 +164,7 @@ const Sidebar = ({ isSidebarVisible }) => {
 };
 
 export default Sidebar;
+
+Sidebar.propTypes = {
+  isSidebarVisible: PropTypes.bool,
+};
